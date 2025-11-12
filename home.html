@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSP HUB - Ruang Sambat Ponorogo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e3a8a;
+            --accent-orange: #f97316;
+            --light-gray: #f3f4f6;
+            --dark-gray: #374151;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-blue);
+            transition: all 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--accent-orange);
+            opacity: 0.1;
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent-orange);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .floating-cards {
+            position: relative;
+            height: 400px;
+        }
+
+        .float-card {
+            position: absolute;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .float-card:nth-child(1) {
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .float-card:nth-child(2) {
+            top: 50px;
+            right: 0;
+            animation-delay: 1s;
+        }
+
+        .float-card:nth-child(3) {
+            bottom: 0;
+            left: 50px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--light-gray);
+            padding: 3rem 2rem;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--dark-gray);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Stories Section */
+        .stories {
+            background: var(--light-gray);
+            padding: 5rem 2rem;
+        }
+
+        .stories-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .story-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-orange);
+        }
+
+        .story-card .category {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: var(--white);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .story-card p {
+            font-style: italic;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .story-card .author {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--accent-orange), #fb923c);
+            padding: 5rem 2rem;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta h2 {
+            font-family: 'Caveat', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-orange);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: var(--white);
+                width: 100%;
+                padding: 2rem;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                transition: left 0.3s;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .floating-cards {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">👂</div>
+                <span>RSP HUB</span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#tentang">Tentang</a></li>
+                <li><a href="#fitur">Fitur</a></li>
+                <li><a href="#cerita">Cerita</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="beranda">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Satu Ruang, Banyak Cerita dan Gerakan</h1>
+                <p>Portal pusat anak muda Ponorogo. Tempat aman untuk sambat, berkolaborasi, dan tumbuh bersama dalam semangat guyub.</p>
+                <div class="hero-buttons">
+                    <a href="#sambat" class="btn btn-primary">Sambat Sekarang</a>
+                    <a href="#tentang" class="btn btn-secondary">Gabung Komunitas</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-cards">
+                    <div class="float-card">
+                        <div style="font-size: 2rem;">🫂</div>
+                        <strong>Ruang Aman</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Curhat anonim</p>
+                    </div>
+                    <div class="float-card">
+                        <div style="font-size: 2rem;">🤝</div>
+                        <strong>Kolaborasi</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Gerakan bersama</p>
+                    </div>
+                    <div class="float-card">
+                        <div style="font-size: 2rem;">💡</div>
+                        <strong>Kreatif</strong>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Karya lokal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3 id="storiesCount">200+</h3>
+                <p>Cerita Dibagikan</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="orgCount">25+</h3>
+                <p>Organisasi Aktif</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="eventCount">50+</h3>
+                <p>Event Terlaksana</p>
+            </div>
+            <div class="stat-item">
+                <h3 id="membersCount">1000+</h3>
+                <p>Anggota Komunitas</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="fitur">
+        <div class="section-title">
+            <h2>Apa yang Bisa Kamu Lakukan di Sini?</h2>
+            <p>Empat pilar utama RSP HUB untuk mendukung gerakan anak muda Ponorogo</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🫂</div>
+                <h3>Ruang Sambat</h3>
+                <p>Tempat aman untuk berbagi perasaan secara anonim. Kamu tidak sendiri, kami mendengarkan.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📰</div>
+                <h3>Media & Berita</h3>
+                <p>Baca artikel, dengar podcast aktivis, dan ikuti perkembangan gerakan mahasiswa Ponorogo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏛️</div>
+                <h3>Direktori Organisasi</h3>
+                <p>Temukan dan bergabung dengan organisasi, UKM, dan komunitas yang sesuai dengan minatmu.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💼</div>
+                <h3>Marketplace Karya</h3>
+                <p>Jual dan beli karya kreatif dari mahasiswa Ponorogo. Dukung ekonomi kreatif lokal.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Agenda Bersama</h3>
+                <p>Lihat dan daftar event dari berbagai organisasi. Satu kalender untuk semua kegiatan.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Kolaborasi</h3>
+                <p>Ajukan dan temukan peluang kolaborasi antar organisasi untuk gerakan yang lebih besar.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Donasi Empati</h3>
+                <p>Dukung kegiatan sosial dan operasional komunitas dengan donasi transparan.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Transparansi</h3>
+                <p>Lihat statistik dan capaian komunitas secara real-time. Semua data terbuka untuk publik.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stories Section -->
+    <section class="stories" id="cerita">
+        <div class="stories-container">
+            <div class="section-title">
+                <h2>Cerita Mingguan</h2>
+                <p>Suara-suara terpilih dari komunitas kita</p>
+            </div>
+            <div class="stories-grid">
+                <div class="story-card">
+                    <span class="category">Kuliah</span>
+                    <p>"Sempat merasa sendiri waktu organisasi dan kuliah bentrok. Tapi di sini aku nemu temen-temen yang paham struggle yang sama. Ternyata banyak yang ngalamin hal serupa."</p>
+                    <div class="author">— Mahasiswa Semester 5</div>
+                </div>
+                <div class="story-card">
+                    <span class="category">Personal</span>
+                    <p>"Awalnya cuma pengen curhat anonim, eh malah dapet support system baru. Sekarang aku jadi relawan buat dengerin cerita orang lain juga."</p>
+                    <div class="author">— Aktivis Muda</div>
+                </div>
+                <div class="story-card">
+                    <span class="category">Organisasi</span>
+                    <p>"Lewat RSP HUB, organisasi kami bisa kolaborasi sama komunitas lain. Event jadi lebih besar dampaknya karena bisa saling support."</p>
+                    <div class="author">— Ketua UKM</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="sambat">
+        <h2>Siap Bergabung dengan Gerakan Ini?</h2>
+        <p>Mulai ceritamu, temukan komunitasmu, dan wujudkan aksimu bersama kami.</p>
+        <div class="hero-buttons" style="justify-content: center;">
+            <a href="#" class="btn btn-secondary">Sambat Anonim</a>
+            <a href="#" class="btn btn-primary" style="background: var(--primary-blue);">Daftar Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="kontak">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>RSP HUB</h3>
+                <p>Portal pusat anak muda Ponorogo untuk berbagi, berkolaborasi, dan tumbuh bersama.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Navigasi</h3>
+                <ul>
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#tentang">Tentang Kami</a></li>
+                    <li><a href="#ruang-sambat">Ruang Sambat</a></li>
+                    <li><a href="#organisasi">Organisasi</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Komunitas</h3>
+                <ul>
+                    <li><a href="#mahasiswa">Mahasiswa</a></li>
+                    <li><a href="#aktivis">Aktivis</a></li>
+                    <li><a href="#ukm">UKM & Karya</a></li>
+                    <li><a href="#event">Event</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <p>Email: info@ruangsambatponorogo.id</p>
+                <p>Instagram: @rsphub_ponorogo</p>
+                <p>WhatsApp: 0812-xxxx-xxxx</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ruang Sambat Ponorogo. Dibuat dengan 💙 untuk anak muda Ponorogo.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when link clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Animate stats on scroll
+        const animateValue = (id, start, end, duration) => {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            let current = start;
+            const timer = setInterval(() => {
+                current += increment;
+                obj.textContent = current + '+';
+                if (current === end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        };
+
+        // Intersection Observer for stats animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateValue('storiesCount', 0, 200, 2000);
+                    animateValue('orgCount', 0, 25, 2000);
+                    animateValue('eventCount', 0, 50, 2000);
+                    animateValue('membersCount', 0, 1000, 2000);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats');
+        statsObserver.observe(statsSection);
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
